@@ -70,14 +70,7 @@ public class AdminUI{
             }
             GroupIDText.clear();
         });
-        Button LastUpdatedUser=new Button("Last Updated User's ID");
-        LastUpdatedUser.setOnAction((ActionEvent event) -> {
-            LastUpdatedIDVisitor updatedIDVisitor=new LastUpdatedIDVisitor();
-            rootGroup.accept(updatedIDVisitor);
-            informationAlert.setContentText("User's last updated: " 
-                    + updatedIDVisitor.getLastUpdateUser()); 
-            informationAlert.showAndWait();
-        });
+
 
         Button userView = new Button();
         userView.setText("Open User View");
@@ -97,7 +90,7 @@ public class AdminUI{
             TotalUser userTotalVisitor=new TotalUser();
             rootGroup.accept(userTotalVisitor);
             informationAlert.setContentText("There are " + userTotalVisitor.getUserTotal()
-                    +" users total");
+                    +" user(s) total");
             informationAlert.showAndWait();
         });
 
@@ -108,7 +101,7 @@ public class AdminUI{
             TotalGroup groupTotalVisitor=new TotalGroup();
             rootGroup.accept(groupTotalVisitor);
             informationAlert.setContentText("There are " + groupTotalVisitor.getGroupTotal()
-                    + " groups total");
+                    + " group(s) total");
             informationAlert.showAndWait();
             
         });
@@ -129,8 +122,8 @@ public class AdminUI{
         positive.setOnAction((ActionEvent event)-> {
             PositiveMsgs positiveVisitor = new PositiveMsgs();
             rootGroup.accept(positiveVisitor);
-            informationAlert.setContentText(String.format("There are %.2f percent"
-                    + " of positive messages total" , positiveVisitor.getPositivePercentage()));
+            informationAlert.setContentText(String.format("%.2f percent"
+                    + " of messages are positive." , positiveVisitor.getPositivePercentage()));
             
             informationAlert.showAndWait();
         });
@@ -141,7 +134,7 @@ public class AdminUI{
         HBox UserGroupBox = new HBox(10, usertotal, grouptotal);
         HBox MessagePositiveBox = new HBox(10, messagetotal, positive);
         
-        VBox UserButtons=new VBox(10, LastUpdatedUser, userView);
+        VBox UserButtons=new VBox(10, userView);
         UserButtons.setAlignment(Pos.CENTER);
         
         VBox topButtons = new VBox(10, userBox, groupBox, UserButtons, UserGroupBox, 
