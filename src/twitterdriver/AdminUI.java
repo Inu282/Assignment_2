@@ -5,6 +5,7 @@ import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
+
 //Singleton Pattern
 public class AdminUI{
     
@@ -71,6 +72,33 @@ public class AdminUI{
             GroupIDText.clear();
         });
 
+        Button validateIDs=new Button();
+        validateIDs.setText("Validate IDs");
+        validateIDs.setOnAction((ActionEvent event) -> {
+            String newGroup= GroupIDText.getText();
+            
+            String newUser= UserIDText.getText();
+            if(rootGroup.containsGroup(newGroup) || rootGroup.containsUser(newUser)){
+                informationAlert.setContentText("Invalid, ID already in use!");
+                informationAlert.showAndWait();
+            }
+            else if(newGroup.contains(" ") || newUser.contains(" ")){
+                informationAlert.setContentText("Invalid, ID cannot have spaces!");
+                informationAlert.showAndWait();
+            }
+             else if(!rootGroup.containsGroup(newGroup) || !rootGroup.containsUser(newUser)){
+                informationAlert.setContentText("Valid ID!");
+                informationAlert.showAndWait();
+            }
+        });
+
+        Button LastUpdatedUser=new Button("Last Updated User's ID");
+        LastUpdatedUser.setOnAction((ActionEvent event) -> {
+            LastUpdatedID updatedIDVisitor=new LastUpdatedID();
+            rootGroup.accept(updatedIDVisitor);
+            informationAlert.setContentText("User's last updated: "+ updatedIDVisitor.getLastUpdateUser()); 
+            informationAlert.showAndWait();
+        });
 
         Button userView = new Button();
         userView.setText("Open User View");
@@ -89,8 +117,7 @@ public class AdminUI{
         usertotal.setOnAction((ActionEvent event) -> {
             TotalUser userTotalVisitor=new TotalUser();
             rootGroup.accept(userTotalVisitor);
-            informationAlert.setContentText("There are " + userTotalVisitor.getUserTotal()
-                    +" user(s) total");
+            informationAlert.setContentText("There are " + userTotalVisitor.getUserTotal() +" user(s) total");
             informationAlert.showAndWait();
         });
 
@@ -100,8 +127,7 @@ public class AdminUI{
         grouptotal.setOnAction((ActionEvent event) -> {
             TotalGroup groupTotalVisitor=new TotalGroup();
             rootGroup.accept(groupTotalVisitor);
-            informationAlert.setContentText("There are " + groupTotalVisitor.getGroupTotal()
-                    + " group(s) total");
+            informationAlert.setContentText("There are " + groupTotalVisitor.getGroupTotal() + " group(s) total");
             informationAlert.showAndWait();
             
         });
@@ -122,9 +148,7 @@ public class AdminUI{
         positive.setOnAction((ActionEvent event)-> {
             PositiveMsgs positiveVisitor = new PositiveMsgs();
             rootGroup.accept(positiveVisitor);
-            informationAlert.setContentText(String.format("%.2f percent"
-                    + " of messages are positive." , positiveVisitor.getPositivePercentage()));
-            
+            informationAlert.setContentText(String.format("%.2f percent" + " of messages are positive." , positiveVisitor.getPositivePercentage()));
             informationAlert.showAndWait();
         });
 
@@ -134,7 +158,7 @@ public class AdminUI{
         HBox UserGroupBox = new HBox(10, usertotal, grouptotal);
         HBox MessagePositiveBox = new HBox(10, messagetotal, positive);
         
-        VBox UserButtons=new VBox(10, userView);
+        VBox UserButtons=new VBox(10,validateIDs, LastUpdatedUser, userView);
         UserButtons.setAlignment(Pos.CENTER);
         
         VBox topButtons = new VBox(10, userBox, groupBox, UserButtons, UserGroupBox, 
@@ -147,6 +171,7 @@ public class AdminUI{
         menuBox.setPadding(new Insets(10));
 
     }
+    
     public HBox getAdminPanel() {
             return menuBox;
     }

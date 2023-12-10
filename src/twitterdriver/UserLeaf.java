@@ -51,7 +51,7 @@ public class UserLeaf extends UserSubject implements Composite, UserObservers{
     public void update(UserSubject subject, String tweet) {
         if (subject instanceof UserLeaf) {
             this.newsFeedList.add("-" + ((UserLeaf) subject).getID() + " : " + tweet);
-            lastUpdatedTime=System.currentTimeMillis();
+            lastUpdatedTime = System.currentTimeMillis();
             this.newsFeedList.add("Last Updated: " + lastUpdatedTime);
         }
     }
@@ -73,7 +73,7 @@ public class UserLeaf extends UserSubject implements Composite, UserObservers{
     public void tweetMessage (String tweet){
         myTweets.add(tweet);
         newsFeedList.add("-" + this.userID + " : " + tweet);
-        lastUpdatedTime=System.currentTimeMillis();
+        lastUpdatedTime = System.currentTimeMillis();
         this.newsFeedList.add("Last Updated: " + lastUpdatedTime);
         updateFollowers(tweet);
     }
